@@ -1,0 +1,23 @@
+sudo: required
+services:
+  - docker
+
+before_install:
+  - docker build -t stephengrider/react-test -f ./client/Dockerfile.dev ./client
+
+script:
+  - docker run serproqnx/react-test npm test -- --coverage
+
+after_success:
+  - docker build -t serproqnx/multi-client ./client
+  - docker build -t serproqnx/multi-nginx ./nginx
+  - docker build -t serproqnx/multi-server  ./server
+  - docker build -t serproqnx/multi-worker ./worker
+
+
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
+
+  - docker push serproqnx/multi-client
+  - docker push serproqnx/multi-nginx
+  - docker push serproqnx/multi-server
+  - docker push serproqnx/multi-worker
