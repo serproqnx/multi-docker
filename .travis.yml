@@ -3,7 +3,7 @@ services:
   - docker
 
 before_install:
-  - docker build -t stephengrider/react-test -f ./client/Dockerfile.dev ./client
+  - docker build -t serproqnx/react-test -f ./client/Dockerfile.dev ./client
 
 script:
   - docker run serproqnx/react-test npm test -- --coverage
