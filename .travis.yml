@@ -21,3 +21,17 @@ after_success:
   - docker push serproqnx/multi-nginx
   - docker push serproqnx/multi-server
   - docker push serproqnx/multi-worker
+
+  deploy:
+    provider: elasticbeanstalk
+    region: eu-central-1
+    app: multi-docker
+    env: MultiDocker-env
+    bucket_name: arn:aws:s3:::elasticbeanstalk-eu-central-1-021522032731
+    backet_path: docker-multi
+    on:
+      branch: master
+    access_key_id: $AWS_ACCESS_KEY
+    secret_access_key:
+      secure: $AWS_SECRET_KEY
+
